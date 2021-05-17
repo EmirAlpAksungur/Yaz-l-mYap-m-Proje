@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/bbe6c92398.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="ShopApp.css">
@@ -81,10 +82,37 @@
       </div>
   </kayitOl>
   <girisYap>
-    Giris Yap Ekranı
+    <div class="shadow border rounded" id="containerGiris">
+      <form class="mx-5">
+          <h2 class="my-5 text-white text-center">
+              HOŞGELDİNİZ
+          </h2>
+          <div class="form-group">
+              <label>Kullanıcı Adı:</label>
+              <input type="text" class="form-control" id="girisKullanıcıAdı" placeholder="Kullanıcı Adı" autocomplete="off">
+          </div>
+          <div>
+              <label>Şifre:</label>
+          </div>
+          <div class="input-group">
+              <input type="password" class="form-control girisPassword" placeholder="Şifre" autocomplete="off">
+              <div class="input-group-append">
+              <button class="btn btn-outline-secondary pswrd-vision" type="button">
+                  <i class="far fa-eye text-light pswrd-close"></i>
+                  <i class="far fa-eye-slash text-light pswrd-open"></i>
+              </button>
+              </div>
+          </div>
+          <div class="form-group mt-4">
+              <button class="btn btn-primary btn-sm ml-1 shadow" id="btn_giris_giris">Giriş Yap</button>
+              <button class="btn btn-warning btn-sm shadow" id="btn_giris_kayitOl">Kayıt ol</button>
+          </div>
+      </form>   
+    </div>
   </girisYap>
-
-
+  <admin>Admin Ekranı</admin>
+  <alici>Alici Ekranı</alici>
+  <satici>Satici Ekranı</satici>
 
 
 

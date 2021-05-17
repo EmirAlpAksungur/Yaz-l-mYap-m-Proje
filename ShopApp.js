@@ -117,6 +117,58 @@ $(document).ready(function(){
         kullanicilar.push(kullanici);
         sayac++;
     }
+    var grsKullaniciAdi ;
+    var grsSifre;
+    //GİRİS
+    $(".pswrd-vision").click(function(){
+        
+        //parola toggle
+        if($('.girisPassword').attr('type')=='text'){
+            //Parola gizle 
+            $('.girisPassword').attr('type', 'password');
+            $('.pswrd-close').hide();
+            $('.pswrd-open').show();
+        }
+        else if($('.girisPassword').attr('type')=='password'){
+            //Parola göster
+            $('.girisPassword').attr('type', 'text');
+            $('.pswrd-close').show();
+            $('.pswrd-open').hide();
+        }
+    });
+    $('#btn_giris_giris').click(function(){
+        grsKullaniciAdi = $('#girisKullanıcıAdı').val();
+        grsSifre = $('.girisPassword').val();
+        if(grsKullaniciAdi == "admin" && grsSifre == "admin"){
+            $('girisYap').hide();
+            $('admin').show();
+        }
+        for(let i=0;i<sayac;i++){
+            if(grsKullaniciAdi == kullanicilar[i].kullaniciAdi){
+                if(grsSifre == kullanicilar[i].sifre){
+                    if(kullanicilar[i].hesapBilgi == "alici"){
+                        $('girisYap').hide();
+                        $('alici').show();
+                    }
+                    if(kullanicilar[i].hesapBilgi == "satici"){
+                        $('girisYap').hide();
+                        $('satici').show();
+                    }
+                    return false;
+                }
+                else{
+                    
+                }
+            }
+        }
+        return false;
+    });
+    $('#btn_giris_kayitOl').click(function(){
+        //Kayit ekranı açılır
+        $('girisYap').hide();
+        $('kayitOl').show();
+        return false;
+    });
 
 
 });

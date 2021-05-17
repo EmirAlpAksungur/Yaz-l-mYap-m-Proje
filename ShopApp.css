@@ -21,6 +21,30 @@ html{
     top: -8px;
     left: 3px;
 }
-girisYap{
+kayitOl{
+    display: none;
+}
+/*Admin*/
+admin{
+    display: none;
+}
+/*alici*/
+alici{
+    display: none;
+}
+/*Satici*/
+satici{
+    display: none;
+}
+/*Giris*/
+#containerGiris{
+    width: 25rem;
+    height: 25rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin:-15rem 0 0 -15rem;
+}
+.pswrd-close{
     display: none;
 }
