@@ -48,3 +48,17 @@ satici{
 .pswrd-close{
     display: none;
 }
+#saticiUrunEklePanel{
+    width: 25rem;
+    height: 25rem;
+    position: absolute;
+    top: 7rem;
+    left: 2rem;
+}
+#saticiUrunleriPanel{
+    width: 40rem;
+    height: 25rem;
+    position: absolute;
+    top: 7rem;
+    left: 29rem;
+}

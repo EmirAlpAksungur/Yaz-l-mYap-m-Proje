@@ -110,9 +110,127 @@
       </form>   
     </div>
   </girisYap>
-  <admin>Admin Ekranı</admin>
-  <alici>Alici Ekranı</alici>
-  <satici>Satici Ekranı</satici>
+  <admin>
+    <div class="float-right">
+      <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+    </div>
+    <table class="float-left w-50" id="adminTable">
+      <thead>
+          <th>Id</th>
+          <th>Ad</th>
+          <th>Adet</th>
+          <th>Fiyat</th>
+          <th>Durum</th>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    <table class="float-left w-25" id="adminPBKTable">
+      <thead>
+          <th>Id</th>
+          <th>Kullanıcı Adı</th>
+          <th>Beklenen Tutar</th>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    <div class="float-left w-50">
+      <label for="">Urun Id Giriniz</label>
+      <input type="text" id="adminOnayUrunId">
+      <button class="btn btn-primary shadow rounded" id="btn_admin_onay">Onayla</button>
+    </div>
+    <div class="float-left w-50">
+      <label for="">Kullanıcı Id Giriniz</label>
+      <input type="text" id="adminOnayKullaniciId">
+      <button class="btn btn-primary shadow rounded" id="btn_admin_kullanici_onay">Onayla</button>
+    </div>
+  </admin>
+  <alici>
+    <div class="bg-success clearFix" id="aliciHeader">
+      <div class="float-right">
+          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+      </div>
+      <div class="float-left">
+          <label>Bakiyeniz</label>
+          <input type="text" class="para" disabled>
+      </div>
+      <div class="float-left">
+          <label for="cekmekİstenenTutar">Para Yatırmak İstediğiniz Tutarı giriniz</label>
+          <input type="text" id="yatirmakIstenenTutar">
+      </div>
+      <div class="float-left">
+          <button class="btn btn-primary shadow raounded" id="ParaYatir">Para Yatir</button>
+      </div>
+    </div>
+    <table class="w-100 float-left" id="aliciTable">
+      <thead>
+          <th>Id</th>
+          <th>Ad</th>
+          <th>Adet</th>
+          <th>Fiyat</th>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+    <div class="float-left w-50">
+      <label for="">Urun Id Giriniz</label>
+      <input type="text" id="aliciUrunId">
+      <label for="">Alacağınız Adedi Giriniz</label>
+      <input type="text" id="aliciUrunAdet">
+      <button class="btn btn-primary shadow rounded" id="btn_satin_al">Satın Al</button>
+    </div>
+  </alici>
+  <satici>
+    <div class="bg-success clearFix" id="saticiHeader">
+      <div class="float-right">
+          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+      </div>
+      <div class="float-left">
+          <label>Bakiyeniz</label>
+          <input type="text" class="para" disabled>
+      </div>
+      <div class="float-left">
+          <label for="cekmekİstenenTutar">Para Çekmek İstediğiniz Tutarı giriniz</label>
+          <input type="text" id="cekmekİstenenTutar">
+      </div>
+      <div class="float-left">
+          <button class="btn btn-primary shadow raounded" id="ParaÇek">Para Çek</button>
+      </div>
+    </div>
+    <div class="border rounded shadow" id="saticiUrunEklePanel">
+      <form>
+          <div>
+              <h2 class="my-4 text-white text-center">
+                  Ürün Ekle
+              </h2>
+          </div>
+          <div class="form-group row mx-1">
+              <label for="inputUrunAd" class="col-sm-2 col-form-label text-white">Ürün Adı</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control w-75" id="inputUrunAd" placeholder="Ürün Adı" autocomplete="off">
+              </div>
+          </div>
+          <div class="form-group row mx-1">
+              <label for="inputUrunMiktar" class="col-sm-2 col-form-label text-white">Ürün Miktarı</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control w-75" id="inputUrunMiktar" placeholder="Ürün Miktarı" autocomplete="off">
+              </div>
+          </div>
+          <div class="form-group row mx-1">
+              <label for="inputUrunFiyat" class="col-sm-2 col-form-label text-white">Ürün Fiyatı</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control w-75" id="inputUrunFiyat" placeholder="Ürün Fiyatı" autocomplete="off">
+              </div>
+          </div>
+          <div class="form-group mt-3 mx-3">
+              <button class="btn btn-warning btn-sm shadow text-white" id="btn_urun_ekle">Ürün Ekle</button>   
+          </div>
+      </form>
+    </div>
+  </satici>
 
 
 
