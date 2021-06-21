@@ -1,4 +1,4 @@
-html{
+html{/*ara plan güzelleştirme*/
     background: linear-gradient(to bottom right,
      #50a3a2 0%, #53e3a6 100%);
 	width: 100%;
@@ -13,31 +13,31 @@ html{
     left: 50%;
     margin:-20rem 0 0 -12rem;
 }
-.pswrd-close{
+.pswrd-close{/*parolanın görünmez olamsını sağlayan butonun güzelleştirmeye yarar*/
     display: none;
 }
-.kayitOlTxtHizala{
+.kayitOlTxtHizala{/*kayıt ol txt sinin görselliğini güzelleştirir*/
     position: relative;
     top: -8px;
     left: 3px;
 }
-kayitOl{
+kayitOl{/*ekranda neyi görmemiz gerektiğini ayarlar*/
     display: none;
 }
 /*Admin*/
-admin{
+admin{/*ekranda neyi görmemiz gerektiğini ayarlar*/
     display: none;
 }
 /*alici*/
-alici{
+alici{/*ekranda neyi görmemiz gerektiğini ayarlar*/
     display: none;
 }
 /*Satici*/
-satici{
+satici{/*ekranda neyi görmemiz gerektiğini ayarlar*/
     display: none;
 }
 /*Giris*/
-#containerGiris{
+#containerGiris{/*Login ekranındaki paneli güzelleştirir*/
     width: 25rem;
     height: 25rem;
     position: absolute;
@@ -48,14 +48,14 @@ satici{
 .pswrd-close{
     display: none;
 }
-#saticiUrunEklePanel{
+#saticiUrunEklePanel{/*Satıcı ekranındaki paneli güzelleştirir*/
     width: 25rem;
     height: 25rem;
     position: absolute;
     top: 7rem;
     left: 2rem;
 }
-#saticiUrunleriPanel{
+#saticiUrunleriPanel{/*Satıcı ekranındaki paneli güzelleştirir*/
     width: 40rem;
     height: 25rem;
     position: absolute;

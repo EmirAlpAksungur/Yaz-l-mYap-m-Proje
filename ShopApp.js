@@ -27,7 +27,16 @@ $(document).ready(function(){
         this.beklenenBirim = beklenenBirim,
         this.alinacaklarList = []
     }
-    function Alinacaklar(alinacakUrunAd,alinacakUrunAdet,alinacakUrunFiyat){
+    function Rapor(Tarih,AliciAdi,SaticiAdi,UrunAd,SatisMiktari,BirimFiyat){//Raporun oluşturulması için kullanılan cosntrıcter
+        this.Tarih = Tarih,
+        this.AliciAdi = AliciAdi,
+        this.SaticiAdi = SaticiAdi,
+        this.UrunAd = UrunAd,
+        this.SatisMiktari = SatisMiktari,
+        this.BirimFiyat = BirimFiyat
+    }
+    var raporlar = [];
+    function Alinacaklar(alinacakUrunAd,alinacakUrunAdet,alinacakUrunFiyat){//alınacak ürünlerin tutulmasını kolaylaştıran constructer
         this.alinacakUrunAd=alinacakUrunAd;
         this.alinacakUrunAdet=alinacakUrunAdet;
         this.alinacakUrunFiyat=alinacakUrunFiyat;
@@ -127,8 +136,6 @@ $(document).ready(function(){
         sayac++;
     }
 
-
-
     var grsKullaniciAdi ;//giris ekranında kullanıcı adı inputunun verisinin tutulduğu değişken
     var grsSifre;//giris ekranında sifre inputunun verisinin tutulduğu değişken
     //GİRİS
@@ -163,12 +170,12 @@ $(document).ready(function(){
             if(grsKullaniciAdi == kullanicilar[i].kullaniciAdi){
                 if(grsSifre == kullanicilar[i].sifre){//kullanıcı adı bulunduktan sonra sifre karsılastırması yapılır ve hesaba girilir
                     if(kullanicilar[i].hesapBilgi == "alici"){
-                        sayfaGecis($('alici'));
+                        sayfaGecis($('alici'));//alici hesabına giriş yapılrı
                         aliciUrunYazdir();
                         saticiEkranDüzenle(i);
                         anlikKullanici = i;
                     }
-                    if(kullanicilar[i].hesapBilgi == "satici"){
+                    if(kullanicilar[i].hesapBilgi == "satici"){//satıcı hesabına giriş yapılır
                         sayfaGecis($('satici'));
                         saticiEkranDüzenle(i);
                         anlikKullanici = i;
@@ -231,9 +238,8 @@ $(document).ready(function(){
     function urunEkle(){
         //urun eklenir
        saticiUrunFiyat = parseFloat(saticiUrunFiyat)+parseFloat(parseFloat(saticiUrunFiyat)/100)
-        var urun = new Urun(urunSayac,saticiUrunAd,saticiUrunAdet,saticiUrunFiyat,"Onaylanmadı",anlikKullanici);
+        var urun = new Urun(urunSayac,saticiUrunAd,saticiUrunAdet,saticiUrunFiyat,"Onaylanmadı",anlikKullanici);//urun oluşturulur
         urunler.push(urun);
-        console.log(urunler);
         urunSayac++;
     }
     //admin panel
@@ -266,37 +272,38 @@ $(document).ready(function(){
     function paraEkle(){
         for(k=0;k<paraBekleyenKullanici.length;k++){
             if(paraBekleyenKullanici[k]==$('#adminOnayKullaniciId').val()){//doğru kullanıcı bulunur ve hesabına para aktarılır
-                var carpilacakDeger = 0;
-                var eklenecekTutar = 0;
-                var beklenenTutar =kullanicilar[paraBekleyenKullanici[k]].beklenenTutar;
-                var eklenecekBakiye =kullanicilar[paraBekleyenKullanici[k]].bakiye;
-                if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Dolar"){
+                var carpilacakDeger;
+                var eklenecekTutar;
+                var beklenenTutar = kullanicilar[paraBekleyenKullanici[k]].beklenenTutar;
+                var eklenecekBakiye =parseFloat(kullanicilar[paraBekleyenKullanici[k]].bakiye);
+                if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Dolar"){//para birimi konrol edilir
                     var gecici = k;
-                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                    console.log(parseFloat(carpilacakDeger));
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){//jsondan anlık para tutarı çekilir
                         carpilacakDeger = veri.USD.Satış;
                         eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
                         eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
-                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;//para bakiyeye aktarılur
                         paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
                     });
                  }
-                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Euro"){
+                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Euro"){//para birimi konrol edilir
                     var gecici = k;
-                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){//jsondan anlık para tutarı çekilir
                         carpilacakDeger = veri.EUR.Satış;
                         eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
                         eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
-                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = parseFloat(eklenecekBakiye);//para bakiyeye aktarılur
                         paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
                     });
                  }
-                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "GBP"){
+                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "GBP"){//para birimi konrol edilir
                     var gecici = k;
-                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){//jsondan anlık para tutarı çekilir
                         carpilacakDeger = veri.GBP.Satış;
                         eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
                         eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
-                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = parseFloat(eklenecekBakiye);//para bakiyeye aktarılur
                         paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
 
                     });
@@ -304,6 +311,37 @@ $(document).ready(function(){
             }
         }
     }
+    $('.raporOlustur').click(function(){
+        var sayac = 1;
+        var msg = "";//doldurulmak için msg box oluşturuur
+        raporlar.forEach(function(rapor){
+            if(rapor.AliciAdi.numara == anlikKullanici){// gerekli bilgiler burada yazılır
+               msg += "Sayac:"+sayac
+                    +"\nSatıldığı Gün:"+(rapor.Tarih.getDay()+20)+"."+(rapor.Tarih.getMonth()+1)+"."+rapor.Tarih.getFullYear()
+                    +"\nAlıcı Adı:"+rapor.AliciAdi.kullaniciAdi
+                    +"\nSatıcı Adı:"+rapor.SaticiAdi.kullaniciAdi
+                    +"\nSatılan Urun Adı:"+rapor.UrunAd
+                    +"\nSatılan Urun Miktari:"+rapor.SatisMiktari
+                    +"\nBirim Fiyat:"+rapor.BirimFiyat;
+                    sayac++;
+            }
+            else if(rapor.SaticiAdi.numara == anlikKullanici){// gerekli bilgiler burada yazılır
+                msg+="Sayac:"+sayac
+                    +"\nSatıldığı Gün:"+(rapor.Tarih.getDay()+20)+"."+(rapor.Tarih.getMonth()+1)+"."+rapor.Tarih.getFullYear()
+                    +"\nAlıcı Adı:"+rapor.AliciAdi.kullaniciAdi
+                    +"\nSatıcı Adı:"+rapor.SaticiAdi.kullaniciAdi
+                    +"\nSatılan Urun Adı:"+rapor.UrunAd
+                    +"\nSatılan Urun Miktari:"+rapor.SatisMiktari
+                    +"\nBirim Fiyat:"+rapor.BirimFiyat;
+                    sayac++;
+            }
+            else{
+                msg += "Daha önce satışınız bulunmamakta";
+            }
+        });
+        alert(msg);//mesaj ekrana yazılır
+
+    });
     $('#btn_admin_kullanici_onay').click(function(){//adminin para bekleyen kullanıcının parasın onaylamasına yararyan fonksityonalr
         paraEkle();
         setTimeout(function(){
@@ -335,25 +373,25 @@ $(document).ready(function(){
                 gecici = false;
             }
         });
-        if($("input[name='paraTur']:checked").val()=="Dolar"){
+        if($("input[name='paraTur']:checked").val()=="Dolar"){//para türü kontrol edilir
             if(gecici){
                 kullanicilar[anlikKullanici].beklenenBirim = "Dolar";
                 paraYatir();
             }
         }
-        else if($("input[name='paraTur']:checked").val()=="Euro"){
+        else if($("input[name='paraTur']:checked").val()=="Euro"){//para türü kontrol edilir
             if(gecici){
                 kullanicilar[anlikKullanici].beklenenBirim = "Euro";
                 paraYatir();
             }
         }
-        else if($("input[name='paraTur']:checked").val()=="TL"){
+        else if($("input[name='paraTur']:checked").val()=="TL"){//para türü kontrol edilir
             if(gecici){
                 kullanicilar[anlikKullanici].beklenenBirim = "TL";
                 paraYatir();
             }
         }
-        else if($("input[name='paraTur']:checked").val()=="GBP"){
+        else if($("input[name='paraTur']:checked").val()=="GBP"){//para türü kontrol edilir
             if(gecici){
                 kullanicilar[anlikKullanici].beklenenBirim = "GBP";
                 paraYatir();
@@ -366,10 +404,12 @@ $(document).ready(function(){
         return false;
     });
     $('#btn_satin_al').click(function(){
-        
-        if(adetKontrol()){//ilk önce yeterli adet kontrolü yapılır
-            if(fiyatKontrol(parseFloat(parseFloat($('#aliciUrunAdet').val())),parseFloat(urunler[parseInt($('#aliciUrunId').val())].urunFiyat))){//sonra paranın yetip yetmediği kontrol edilir
-                satisiGerceklestir(parseFloat($('#aliciUrunId').val()),parseFloat($('#aliciUrunAdet').val()));//satisin gerçekleşeceği fonksiyon çağrılır
+        var result = confirm("KDV li birim fiyat :" + urunler[parseInt($('#aliciUrunId').val())].urunFiyat + "Satın alım işlemine devam edilsin mi ?");
+            if (result) {
+            if(adetKontrol()){//ilk önce yeterli adet kontrolü yapılır
+                if(fiyatKontrol(parseFloat(parseFloat($('#aliciUrunAdet').val())),parseFloat(urunler[parseInt($('#aliciUrunId').val())].urunFiyat),anlikKullanici)){//sonra paranın yetip yetmediği kontrol edilir
+                    satisiGerceklestir(parseFloat($('#aliciUrunId').val()),parseFloat($('#aliciUrunAdet').val()),anlikKullanici);//satisin gerçekleşeceği fonksiyon çağrılır
+                }
             }
         }
         //satın alma işlemi gerçekleştirilecek fonksiyonlar
@@ -378,32 +418,30 @@ $(document).ready(function(){
     });
     $('#btn_urunAyir').click(function(){
         //kullanıcının ayırmak istediği ürün sisteme kayıt edilir
-        var result = confirm("KDV li birim fiyat :" + parseFloat(urunler[parseInt($('#aliciUrunId').val())].urunFiyat) + "Satın alım işlemine devam edilsin mi ?");
-        if (result) {
-            var alinacakUrunad = $('#urunayirUrunAd').val();
-            var alinacakUrunkilo = $('#urunayirUrunKilo').val();
-            var alinacakUrunfiyat = $('#urunayirUrunFiyat').val();
-            var alinacaklar = new Alinacaklar(alinacakUrunad,alinacakUrunkilo,alinacakUrunfiyat);
-            kullanicilar[anlikKullanici].alinacaklarList.push(alinacaklar);
-            return false;
-        }
+        var alinacakUrunad = $('#urunayirUrunAd').val();
+        var alinacakUrunkilo = $('#urunayirUrunKilo').val();
+        var alinacakUrunfiyat = $('#urunayirUrunFiyat').val();
+        var alinacaklar = new Alinacaklar(alinacakUrunad,alinacakUrunkilo,alinacakUrunfiyat);
+        kullanicilar[anlikKullanici].alinacaklarList.push(alinacaklar);
+        return false;        
     });
     setInterval(function(){
         //kullanıcıların ayırmış olduğu ürünler belli sürelerde kontrol edilir ve doğru eşleşmelerde satılır
         kullanicilar.forEach(function(kullanan){
             kullanan.alinacaklarList.forEach(function(alinacakliste){
-                ayrilanUrunVarMi(alinacakliste,alinacakliste.alinacakUrunAd,parseFloat(alinacakliste.alinacakUrunAdet),parseFloat(alinacakliste.alinacakUrunFiyat));
+                ayrilanUrunVarMi(alinacakliste,alinacakliste.alinacakUrunAd,parseFloat(alinacakliste.alinacakUrunAdet),parseFloat(alinacakliste.alinacakUrunFiyat),kullanan);
             });
             console.log(kullanan);
         });
-    },10000);
-    function ayrilanUrunVarMi(alinacakliste,ad,kilo,fiyat){
+    },60000);
+    function ayrilanUrunVarMi(alinacakliste,ad,kilo,fiyat,kullanan){
         var ayrilanurunSayac = 0;
         urunler.forEach(function(){//ayrılan ürünün ürünlerde olup olmadığını kontol etmek için tüm ürünler döndürülür
             if((urunler[ayrilanurunSayac].urunAd==ad)&&(urunler[ayrilanurunSayac].urunOnay ==  "Onaylandı")){//adı ve ürünün onay durumu kontrol edilir
                 if((parseFloat(urunler[ayrilanurunSayac].urunAdet)>=parseFloat(kilo))&&(parseFloat(urunler[ayrilanurunSayac].urunFiyat)<=parseFloat(fiyat))){ //aranan fiyatta olup olmadığı ve yeterli kilo olup olmadığı kontrol edilir  
-                    if(fiyatKontrol(parseFloat(kilo),parseFloat(urunler[ayrilanurunSayac].urunFiyat))){//alıcının yeterli parası olup olmadığı kontol edilir
-                        satisiGerceklestir(parseFloat(urunler[ayrilanurunSayac].urunNo),parseFloat(kilo));//satış gerçekleştirilir
+                    console.log("kullanan.numara"+kullanan.numara);
+                    if(fiyatKontrol(parseFloat(kilo),parseFloat(urunler[ayrilanurunSayac].urunFiyat),kullanan.numara)){//alıcının yeterli parası olup olmadığı kontol edilir
+                        satisiGerceklestir(parseFloat(urunler[ayrilanurunSayac].urunNo),parseFloat(kilo),kullanan.numara);//satış gerçekleştirilir
                         alinacakliste.alinacakUrunAd = null;//bidaha alınmaması için ürün bilgileri boşaltılır
                         alinacakliste.alinacakUrunAdet = null;
                         alinacakliste.alinacakUrunFiyat = null;
@@ -414,12 +452,13 @@ $(document).ready(function(){
             ayrilanurunSayac++;
         });
     }
-    function fiyatKontrol(adet,fiyat){
+    function fiyatKontrol(adet,fiyat,alici){
         //alıcının parası alacağı ürüne yetip yetmediği kontorl edilir
         var toplamFiyat = 0;
         var donulecekDeger = true;
+        console.log("alici"+alici);
         toplamFiyat = adet*fiyat;//gerekli tutar hesaplanır
-        if(toplamFiyat > kullanicilar[anlikKullanici].bakiye){//alıcının parasının yeterliliği kontrol edilir
+        if(toplamFiyat > kullanicilar[parseInt(alici)].bakiye){//alıcının parasının yeterliliği kontrol edilir
             donulecekDeger = false
         }
         return donulecekDeger;
@@ -432,17 +471,23 @@ $(document).ready(function(){
         }
         return donulecekDeger;
     }
-    function satisiGerceklestir(urunId,urunAdet){
+    function raporOlustur(satici,alici,urunAd,urunAdet,birimFiyat){
+        var tarih=new Date();
+        var rapor = new Rapor(tarih,alici,satici,urunAd,urunAdet,birimFiyat)//rapor oluştuulur
+        raporlar.push(rapor)
+    }
+    function satisiGerceklestir(urunId,urunAdet,alici){
         //satış gerçekleştirilir
         urunler[urunId].urunAdet =
         parseFloat(urunler[urunId].urunAdet)-urunAdet;//yeni ürün sayısı güncellenir
-        kullanicilar[anlikKullanici].bakiye =
-        parseFloat(parseFloat(kullanicilar[anlikKullanici].bakiye)-(parseFloat(urunAdet)*parseFloat(urunler[urunId].urunFiyat)));//alıcı parası güncellenir
-        saticiEkranDüzenle(anlikKullanici);
+        kullanicilar[alici].bakiye =
+        parseFloat(parseFloat(kullanicilar[alici].bakiye)-(parseFloat(urunAdet)*parseFloat(urunler[urunId].urunFiyat)));//alıcı parası güncellenir
+        saticiEkranDüzenle(alici);
         aliciUrunYazdir();
         kullanicilar[urunler[urunId].urunEkleyenId].bakiye =
-        parseFloat(parseFloat(kullanicilar[urunler[urunId].urunEkleyenId].bakiye)+(parseFloat(urunAdet)*parseFloat(urunler[urunId].urunFiyat)));//satıcının parası güncellenir
-        muhasebeKullaniciBakiye+=(parseFloat(parseFloat(urunAdet)*parseFloat(urunler[urunId].urunFiyat)*100)/101);//muhasabeci kazanç
+        parseFloat(parseFloat(kullanicilar[urunler[urunId].urunEkleyenId].bakiye)+(parseFloat(urunAdet)*(parseFloat(urunler[urunId].urunFiyat)-parseFloat(urunler[urunId].urunFiyat)/101)));//satıcının parası güncellenir
+        muhasebeKullaniciBakiye+=(parseFloat(parseFloat(urunAdet)*parseFloat(urunler[urunId].urunFiyat)/101));//muhasabeci kazanç
+        raporOlustur(kullanicilar[urunler[urunId].urunEkleyenId],kullanicilar[alici],urunler[urunId].urunAd,urunAdet,parseFloat(urunler[urunId].urunFiyat)-parseFloat(urunler[urunId].urunFiyat)/101);
     }
     //GENEL 
     $('.Cikis').click(function(){

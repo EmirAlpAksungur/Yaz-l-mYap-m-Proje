@@ -12,9 +12,9 @@
     <title>ShopApp</title>
   </head>
   <body>
-    <kayitOl>
+    <kayitOl><!-- kayıt olma ekranı -->
       <div class="shadow border rounded" id="container">
-          <form>
+          <form><!-- kayıt olmaya yarayan form -->
               <div>
                   <h2 class="my-4 text-white text-center">
                       Kayıt Ol
@@ -75,15 +75,15 @@
                   <label for="satici" class="text-white kayitOlTxtHizala">Satıcı Hesabı</label><br>
               </div>
               <div class="form-group mt-3 mx-3">
-                  <button class="btn btn-warning btn-sm shadow text-white" id="btn_kayitOl">Kayıt ol</button>
-                  <button class="btn btn-primary btn-sm ml-1 shadow" id="btn_HesabimVar">Hesabım var</button>     
+                  <button class="btn btn-warning btn-sm shadow text-white" id="btn_kayitOl">Kayıt ol</button><!-- kayıt işlemini tamamlayan buton -->
+                  <button class="btn btn-primary btn-sm ml-1 shadow" id="btn_HesabimVar">Hesabım var</button><!-- giriş ekranına geçen buton -->
               </div>
           </form>
       </div>
   </kayitOl>
-  <girisYap>
+  <girisYap><!-- Giriş ekranı -->
     <div class="shadow border rounded" id="containerGiris">
-      <form class="mx-5">
+      <form class="mx-5"><!-- giriş yapmaya yarayan form -->
           <h2 class="my-5 text-white text-center">
               HOŞGELDİNİZ
           </h2>
@@ -104,17 +104,17 @@
               </div>
           </div>
           <div class="form-group mt-4">
-              <button class="btn btn-primary btn-sm ml-1 shadow" id="btn_giris_giris">Giriş Yap</button>
-              <button class="btn btn-warning btn-sm shadow" id="btn_giris_kayitOl">Kayıt ol</button>
+              <button class="btn btn-primary btn-sm ml-1 shadow" id="btn_giris_giris">Giriş Yap</button><!-- giriş butonu  -->
+              <button class="btn btn-warning btn-sm shadow" id="btn_giris_kayitOl">Kayıt ol</button><!-- kayıt olma sekmesine geçen buton -->
           </div>
       </form>   
     </div>
   </girisYap>
-  <admin>
+  <admin><!-- admin paneli  -->
     <div class="float-right">
-      <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+      <button class="btn btn-danger shadow rounded Cikis">Çıkış</button><!-- çıkış yapmaya yarayan buton -->
     </div>
-    <table class="float-left w-50" id="adminTable">
+    <table class="float-left w-50" id="adminTable"><!-- satılacak ürün tablosu -->
       <thead>
           <th>Id</th>
           <th>Ad</th>
@@ -126,7 +126,7 @@
 
       </tbody>
     </table>
-    <table class="float-left w-25" id="adminPBKTable">
+    <table class="float-left w-25" id="adminPBKTable"><!-- para bekleyen kullanıcı taplos -->
       <thead>
           <th>Id</th>
           <th>Kullanıcı Adı</th>
@@ -140,18 +140,21 @@
     <div class="float-left w-50">
       <label for="">Urun Id Giriniz</label>
       <input type="text" id="adminOnayUrunId">
-      <button class="btn btn-primary shadow rounded" id="btn_admin_onay">Onayla</button>
+      <button class="btn btn-primary shadow rounded" id="btn_admin_onay">Onayla</button><!-- üürn onay buonu -->
     </div>
     <div class="float-left w-50">
       <label for="">Kullanıcı Id Giriniz</label>
       <input type="text" id="adminOnayKullaniciId">
-      <button class="btn btn-primary shadow rounded" id="btn_admin_kullanici_onay">Onayla</button>
+      <button class="btn btn-primary shadow rounded" id="btn_admin_kullanici_onay">Onayla</button><!-- para kabul butonu -->
     </div>
   </admin>
-  <alici>
+  <alici><!-- alıcı paneli -->
     <div class="bg-success clearFix" id="aliciHeader">
       <div class="float-right">
-          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button><!-- çıkış butonu -->
+      </div>
+      <div class="float-right">
+        <button class="btn btn-secondary shadow rounded raporOlustur">Rapor Olustur</button><!-- rapor oluşturmaya yarayan buton -->
       </div>
       <div class="float-left">
           <label>Bakiyeniz</label>
@@ -182,12 +185,12 @@
           </form>
       </div>
       <div class="float-left">
-          <button class="btn btn-primary shadow raounded" id="ParaYatir">Para Yatir</button>
+          <button class="btn btn-primary shadow raounded" id="ParaYatir">Para Yatir</button><!-- para yatırmaya yarayan buton -->
       </div>
     </div>
     <div class="w-100">
         <div class="w-50 float-left">
-            <form class="mx-5">
+            <form class="mx-5"><!-- ürün ayırmaya yarayan bölüm -->
                 <h2 class="my-3 ml-5 w-25 text-white text-center">
                     Ürün Ayır
                 </h2>
@@ -204,13 +207,13 @@
                     <input type="text" class="form-control w-50" id="urunayirUrunFiyat" placeholder="Urun Fiyat" autocomplete="off">
                 </div>
                 <div class="form-group mt-4">
-                    <button class="btn btn-success btn-sm ml-1 shadow" id="btn_urunAyir">Ürün Ayır</button>
+                    <button class="btn btn-success btn-sm ml-1 shadow" id="btn_urunAyir">Ürün Ayır</button><!-- ürün ayırma butonu -->
                 </div>
             </form>   
         </div>
     </div>
     <table class="w-100 float-left" id="aliciTable">
-      <thead>
+      <thead><!-- alınabilir ürün listesi -->
           <th>Id</th>
           <th>Ad</th>
           <th>Adet</th>
@@ -220,18 +223,21 @@
 
       </tbody>
     </table>
-    <div class="float-left w-50">
+    <div class="float-left w-50"><!-- ürün satın alma -->
       <label for="">Urun Id Giriniz</label>
       <input type="text" id="aliciUrunId">
       <label for="">Alacağınız Adedi Giriniz</label>
       <input type="text" id="aliciUrunAdet">
-      <button class="btn btn-primary shadow rounded" id="btn_satin_al">Satın Al</button>
+      <button class="btn btn-primary shadow rounded" id="btn_satin_al">Satın Al</button><!-- ürün satın alma butonu -->
     </div>
   </alici>
-  <satici>
+  <satici><!-- satıcı ekranı -->
     <div class="bg-success clearFix" id="saticiHeader">
       <div class="float-right">
-          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button>
+          <button class="btn btn-danger shadow rounded Cikis">Çıkış</button><!-- çıkış butonu -->
+      </div>
+      <div class="float-right">
+        <button class="btn btn-secondary shadow rounded raporOlustur">raporOlustur</button><!-- rapor oluşturma -->
       </div>
       <div class="float-left">
           <label>Bakiyeniz</label>
@@ -242,10 +248,10 @@
           <input type="text" id="cekmekİstenenTutar">
       </div>
       <div class="float-left">
-          <button class="btn btn-primary shadow raounded" id="ParaÇek">Para Çek</button>
+          <button class="btn btn-primary shadow raounded" id="ParaÇek">Para Çek</button><!-- para çekme butonu -->
       </div>
     </div>
-    <div class="border rounded shadow" id="saticiUrunEklePanel">
+    <div class="border rounded shadow" id="saticiUrunEklePanel"><!-- ürün ekleme paneli -->
       <form>
           <div>
               <h2 class="my-4 text-white text-center">
@@ -271,7 +277,7 @@
               </div>
           </div>
           <div class="form-group mt-3 mx-3">
-              <button class="btn btn-warning btn-sm shadow text-white" id="btn_urun_ekle">Ürün Ekle</button>   
+              <button class="btn btn-warning btn-sm shadow text-white" id="btn_urun_ekle">Ürün Ekle</button>   <!-- ürün eklemeey yarayan buton -->
           </div>
       </form>
     </div>
