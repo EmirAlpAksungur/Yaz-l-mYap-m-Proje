@@ -10,7 +10,7 @@ $(document).ready(function(){
     var kayitHesapBilgi;//Kulanıcı Kayitta hesap bilgisi için kullanılan input
     var alertMesasge="";//alert mesajlarını bunun içinde toplayıp yazdırırız
     var anlikKullanici;//İşlem yapan kullanıcıyı tespit için kullanılır
-    function Kullanici(numara,ad,soyad,sifre,eposta,tc,telno,adres,bakiye,kullaniciAdi,hesapBilgi,beklenenTutar) {
+    function Kullanici(numara,ad,soyad,sifre,eposta,tc,telno,adres,bakiye,kullaniciAdi,hesapBilgi,beklenenTutar,beklenenBirim) {
         //Kullanıcı eklerken gerekli bilgilerin alınmasını kolaylaştıran construter
         this.numara = numara,
         this.ad = ad,
@@ -24,6 +24,7 @@ $(document).ready(function(){
         this.kullaniciAdi = kullaniciAdi,
         this.hesapBilgi = hesapBilgi,
         this.beklenenTutar = beklenenTutar,
+        this.beklenenBirim = beklenenBirim,
         this.alinacaklarList = []
     }
     function Alinacaklar(alinacakUrunAd,alinacakUrunAdet,alinacakUrunFiyat){
@@ -121,7 +122,7 @@ $(document).ready(function(){
     
     function KisiKayit(){
         //kullanıcı kaydı yapılır 
-        var kullanici = new Kullanici(sayac,kayitAd,kayitSoyad,kayitSifre,kayitEposta,kayitTc,kayitNo,kayitAdres,"0",kayitKullaniciAdi,kayitHesapBilgi,"0");
+        var kullanici = new Kullanici(sayac,kayitAd,kayitSoyad,kayitSifre,kayitEposta,kayitTc,kayitNo,kayitAdres,"0",kayitKullaniciAdi,kayitHesapBilgi,"0","TL");
         kullanicilar.push(kullanici);
         sayac++;
     }
@@ -259,17 +260,56 @@ $(document).ready(function(){
         $('#adminPBKTable').find("tr:gt(0)").remove();
         for(k=0;k<paraBekleyenKullanici.length;k++){
             $('#adminPBKTable').append('<tr><td>'+kullanicilar[paraBekleyenKullanici[k]].numara+'</td><td>'+
-            kullanicilar[paraBekleyenKullanici[k]].kullaniciAdi+'</td><td>'+kullanicilar[paraBekleyenKullanici[k]].beklenenTutar+'</td></tr>');
+            kullanicilar[paraBekleyenKullanici[k]].kullaniciAdi+'</td><td>'+kullanicilar[paraBekleyenKullanici[k]].beklenenTutar+'</td><td>'+kullanicilar[paraBekleyenKullanici[k]].beklenenBirim+'</td></tr>');
         } 
     }
-    $('#btn_admin_kullanici_onay').click(function(){//adminin para bekleyen kullanıcının parasın onaylamasına yararyan fonksityonalr
+    function paraEkle(){
         for(k=0;k<paraBekleyenKullanici.length;k++){
             if(paraBekleyenKullanici[k]==$('#adminOnayKullaniciId').val()){//doğru kullanıcı bulunur ve hesabına para aktarılır
-                kullanicilar[paraBekleyenKullanici[k]].bakiye =parseFloat(kullanicilar[paraBekleyenKullanici[k]].bakiye)+parseFloat(kullanicilar[paraBekleyenKullanici[k]].beklenenTutar);
-                paraBekleyenKullanici.splice(k,1)//kullanıcı para bekleyenler arasından çıkartılır
-                adminPanelPBK();//admin paneli güncellenir
+                var carpilacakDeger = 0;
+                var eklenecekTutar = 0;
+                var beklenenTutar =kullanicilar[paraBekleyenKullanici[k]].beklenenTutar;
+                var eklenecekBakiye =kullanicilar[paraBekleyenKullanici[k]].bakiye;
+                if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Dolar"){
+                    var gecici = k;
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                        carpilacakDeger = veri.USD.Satış;
+                        eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
+                        eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
+                    });
+                 }
+                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "Euro"){
+                    var gecici = k;
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                        carpilacakDeger = veri.EUR.Satış;
+                        eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
+                        eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
+                    });
+                 }
+                 else if(kullanicilar[paraBekleyenKullanici[k]].beklenenBirim == "GBP"){
+                    var gecici = k;
+                    $.getJSON("https://finans.truncgil.com/today.json",function(veri){
+                        carpilacakDeger = veri.GBP.Satış;
+                        eklenecekTutar = parseFloat(beklenenTutar) * parseFloat(carpilacakDeger);
+                        eklenecekBakiye = parseFloat(eklenecekBakiye) + parseFloat(eklenecekTutar);
+                        kullanicilar[parseInt(paraBekleyenKullanici[gecici])].bakiye = eklenecekBakiye;
+                        paraBekleyenKullanici.splice(gecici,1)//kullanıcı para bekleyenler arasından çıkartılır
+
+                    });
+                 }
             }
         }
+    }
+    $('#btn_admin_kullanici_onay').click(function(){//adminin para bekleyen kullanıcının parasın onaylamasına yararyan fonksityonalr
+        paraEkle();
+        setTimeout(function(){
+            adminPanelPBK();//admin paneli güncellenir
+        },1000)
+       
 
     });
     //alici
@@ -281,11 +321,48 @@ $(document).ready(function(){
             +'</td><td>'+urunler[k].urunAdet+'</td><td>'+(((urunler[k].urunFiyat)*100)/101)+'</td></tr>');
         } 
     }
-    $('#ParaYatir').click(function(){//alıcının hesabına para yatırmak istediğinin oluştuğu yer
-        alert("Talebiniz Alınmıştır En Yakın Zamanda İşleminiz Gerçekleşecektir.");
+    function paraYatir(){
         kullanicilar[anlikKullanici].beklenenTutar = $('#yatirmakIstenenTutar').val();//yatırmak isteği tutar kullanıcı bilgilerine eklenir
         paraBekleyenKullanici.push(anlikKullanici);//para bekleyen kullanıcılar listesine eklenir
         adminPanelPBK();//admin panel para beklyen kullanici yazdir
+        alert("Talebiniz Alınmıştır En Yakın Zamanda İşleminiz Gerçekleşecektir.");
+    }
+    $('#ParaYatir').click(function(){//alıcının hesabına para yatırmak istediğinin oluştuğu yer
+        var gecici = true;
+        paraBekleyenKullanici.forEach(function(bekleyenKulanici){
+            if(bekleyenKulanici==anlikKullanici){
+                alert("Zaten Bekleyen Bir işleminiz Var");
+                gecici = false;
+            }
+        });
+        if($("input[name='paraTur']:checked").val()=="Dolar"){
+            if(gecici){
+                kullanicilar[anlikKullanici].beklenenBirim = "Dolar";
+                paraYatir();
+            }
+        }
+        else if($("input[name='paraTur']:checked").val()=="Euro"){
+            if(gecici){
+                kullanicilar[anlikKullanici].beklenenBirim = "Euro";
+                paraYatir();
+            }
+        }
+        else if($("input[name='paraTur']:checked").val()=="TL"){
+            if(gecici){
+                kullanicilar[anlikKullanici].beklenenBirim = "TL";
+                paraYatir();
+            }
+        }
+        else if($("input[name='paraTur']:checked").val()=="GBP"){
+            if(gecici){
+                kullanicilar[anlikKullanici].beklenenBirim = "GBP";
+                paraYatir();
+            }
+        }
+        else{
+            alert("Para Birimi Seciniz")
+            return false;
+        }        
         return false;
     });
     $('#btn_satin_al').click(function(){
